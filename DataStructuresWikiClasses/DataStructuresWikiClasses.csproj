@@ -46,7 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataStructures.cs" />
+    <Compile Include="Information.cs" />
     <Compile Include="frmMain.cs">
       <SubType>Form</SubType>
     </Compile>
