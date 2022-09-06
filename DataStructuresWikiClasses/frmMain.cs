@@ -23,7 +23,14 @@ namespace DataStructuresWikiClasses
 
         private void Form1_Load(object sender, EventArgs e)
         {
-           
+            LoadComboBox();
+        }
+
+        private void LoadComboBox()
+        {
+            cbCategory.Items.Clear();
+            string[] categories = System.IO.File.ReadAllLines("Categories.txt");
+            cbCategory.Items.AddRange(categories);
         }
 
         private void updateSS(string input)
@@ -191,7 +198,56 @@ namespace DataStructuresWikiClasses
 
         private void btnEdit_Click(object sender, EventArgs e)
         {
+            try
+            {
+                int index = lvDataStructures.SelectedIndices[0];
+                string text = Wiki[index].getName();
 
+                bool exists = true;
+
+                if (!string.IsNullOrEmpty(tbxName.Text) && !string.IsNullOrEmpty(cbCategory.Text) && radioButtonIndex >= 0 && !string.IsNullOrEmpty(tbxDefinition.Text))
+                {
+                    exists = ValidName(tbxName.Text);
+                    if (exists)
+                    {
+                        if (text == tbxName.Text)
+                        {
+                            Wiki[index].setName(tbxName.Text);
+                            Wiki[index].setStructure(radioButtonType);
+                            Wiki[index].setCategory(cbCategory.Text);
+                            Wiki[index].setDef(tbxDefinition.Text);
+                            updateSS(text + " was edited as is now " + tbxName.Text + "!");
+                        }
+                        else
+                        {
+                            MessageBox.Show("Error: " + tbxName.Text + " already exists in the wiki!", "Editing Information", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            updateSS("Error: " + tbxName.Text + " already exists in the wiki!");
+                        }
+                    }
+                    else
+                    {
+                        Wiki[index].setName(tbxName.Text);
+                        Wiki[index].setStructure(radioButtonType);
+                        Wiki[index].setCategory(cbCategory.Text);
+                        Wiki[index].setDef(tbxDefinition.Text);
+                        updateSS(text + " was edited as is now " + tbxName.Text + "!");
+                    }
+
+                }
+                else
+                {
+                    MessageBox.Show("Error: One of the following data inputs has no data inside: Name, Category, Structure or Definition. Please input data and try again.", "Error Inputting Data", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    updateSS("Error: One of the following data inputs has no data inside: Name, Category, Structure or Definition. Please input data and try again.");
+                }
+
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Error, nothing selected to edit.", "Editing Definition", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                updateSS("Error, nothing selected to edit.");
+            }
+
+            displayData();
         }
 
         private void clear()
@@ -201,6 +257,8 @@ namespace DataStructuresWikiClasses
             rbLinear.Checked = false;
             rbNonLinear.Checked = false;
             tbxDefinition.Clear();
+            radioButtonIndex = -1;
+            radioButtonType = null;
             updateSS("Data in the textboxes has been successfully cleared");
         }
 
