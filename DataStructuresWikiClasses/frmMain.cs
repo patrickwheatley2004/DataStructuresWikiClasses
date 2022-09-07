@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,9 +29,17 @@ namespace DataStructuresWikiClasses
 
         private void LoadComboBox()
         {
-            cbCategory.Items.Clear();
-            string[] categories = System.IO.File.ReadAllLines("Categories.txt");
-            cbCategory.Items.AddRange(categories);
+            if (File.Exists("Categories.txt"))
+            {
+                cbCategory.Items.Clear();
+                string[] categories = File.ReadAllLines("Categories.txt");
+                cbCategory.Items.AddRange(categories);
+            }
+            else
+            {
+                updateSS("Categories could not be loaded.");
+            }
+
         }
 
         private void updateSS(string input)
@@ -42,16 +51,14 @@ namespace DataStructuresWikiClasses
         private void Sort()
         {
             int wikiC = Wiki.Count();
-            for (int i = 1; i < wikiC; i++)
+            for (int i = 0; i < wikiC; i++)
             {
                 for (int j = 0; j < wikiC - 1; j++)
                 {
-                    if (!(string.IsNullOrEmpty(Wiki[j + 1].getName())))
+                    int indx = Wiki[j].CompareTo(Wiki[j + 1].getName());
+                    if (indx > 0) 
                     {
-                        if (string.Compare(Wiki[j].getName(), Wiki[j + 1].getName()) == 1)
-                        {
-                            swap(j); // swaps the data.
-                        }
+                        swap(j);
                     }
                 }
             }
@@ -102,6 +109,11 @@ namespace DataStructuresWikiClasses
                 MessageBox.Show("Error: One of the following data inputs has no data inside: Name, Category, Structure or Definition. Please input data and try again.", "Error Inputting Data", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 updateSS("Error: One of the following data inputs has no data inside: Name, Category, Structure or Definition. Please input data and try again.");
             }
+            tbxName.Clear();
+            cbCategory.Text = null;
+            tbxDefinition.Clear();
+            rbLinear.Checked = true;
+            tbxName.Focus();
 
         }
 
@@ -279,8 +291,7 @@ namespace DataStructuresWikiClasses
             for (int i = 0; i < Wiki.Count; i++)
             {
                 names.Add(Wiki[i].getName());
-                lvDataStructures.Items[i].Focused = true;
-                lvDataStructures.Items[i].Selected = true;
+                lvDataStructures.Items[i].Checked = true;
             }
             int indx = names.BinarySearch(text);
             if (indx < 0)
@@ -294,6 +305,96 @@ namespace DataStructuresWikiClasses
                 lvDataStructures.Items[indx].Focused = true;
                 lvDataStructures.Items[indx].Selected = true;
             }
+
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            string dfName = "definitions.bin";
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "BIN FILE|*.bin";
+            saveFileDialog.Title = "Save A BIN file";
+            saveFileDialog.InitialDirectory = Application.StartupPath;
+            saveFileDialog.DefaultExt = "bin";
+            saveFileDialog.ShowDialog();
+            string fileName = saveFileDialog.FileName;
+            if (saveFileDialog.FileName != "")
+            {
+                SaveRecord(fileName);
+            }
+            else
+            {
+                SaveRecord(dfName);
+            }
+        }
+
+        private void SaveRecord(string saveFileName)
+        {
+            try
+            {
+                using (Stream stream = File.Open(saveFileName, FileMode.Create))
+                {
+                    using (var writer = new BinaryWriter(stream, Encoding.UTF8, false))
+                    {
+                        for (int i = 0; i < Wiki.Count; i++)
+                        {
+                            writer.Write(Wiki[i].getName());
+                            writer.Write(Wiki[i].getCategory());
+                            writer.Write(Wiki[i].getStructure());
+                            writer.Write(Wiki[i].getDef());
+                        }
+                    }
+                }
+            }
+            catch (IOException ex)
+            {
+                MessageBox.Show("ERROR: " + ex.ToString(), "Saving Definition Information", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnLoad_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.InitialDirectory = Application.StartupPath;
+            openFileDialog.Filter = "BIN FILES|*.bin";
+            openFileDialog.Title = "Open a BIN file";
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                OpenRecord(openFileDialog.FileName);
+            }
+        }
+
+        // 9.11	Create a LOAD button that will read the information from a binary file called definitions.dat into the 2D array, ensure the user has the option to select an alternative file. Use a file stream and BinaryReader to complete this task.
+        private void OpenRecord(string openFileName)
+        {
+            try
+            {
+                using (Stream stream = File.Open(openFileName, FileMode.Open))
+                {
+                    using (var reader = new BinaryReader(stream, Encoding.UTF8, false))
+                    {
+                        {
+                            Wiki.Clear();
+                            while (stream.Position < stream.Length)
+                            {
+                                string name = "z";
+                                string category = "zz";
+                                string def = "zzz";
+                                name = reader.ReadString();
+                                category = reader.ReadString();
+                                selectRB(reader.ReadInt32());
+                                def = reader.ReadString();
+                                Wiki.Add(new Information(name, category, radioButtonType, def));
+                            }
+                        }
+                    }
+                }
+            }
+            catch (IOException ex)
+            {
+                MessageBox.Show("ERROR: " + ex.ToString(), "Loading A .BIN File", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            displayData();
         }
     }
 }

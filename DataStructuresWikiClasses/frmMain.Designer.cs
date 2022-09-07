@@ -130,6 +130,7 @@
             this.lvDataStructures.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnName,
             this.columnCategory});
+            this.lvDataStructures.ForeColor = System.Drawing.Color.Black;
             this.lvDataStructures.HideSelection = false;
             this.lvDataStructures.Location = new System.Drawing.Point(174, 28);
             this.lvDataStructures.Name = "lvDataStructures";
@@ -227,9 +228,9 @@
             // 
             // statusStrip1
             // 
-            this.statusStrip1.Location = new System.Drawing.Point(0, 454);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 470);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(936, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(432, 22);
             this.statusStrip1.TabIndex = 16;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -241,6 +242,7 @@
             this.btnSave.TabIndex = 17;
             this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // btnLoad
             // 
@@ -250,13 +252,14 @@
             this.btnLoad.TabIndex = 18;
             this.btnLoad.Text = "Load";
             this.btnLoad.UseVisualStyleBackColor = true;
+            this.btnLoad.Click += new System.EventHandler(this.btnLoad_Click);
             // 
             // chbAutoSave
             // 
             this.chbAutoSave.AutoSize = true;
             this.chbAutoSave.Checked = true;
             this.chbAutoSave.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chbAutoSave.Location = new System.Drawing.Point(93, 330);
+            this.chbAutoSave.Location = new System.Drawing.Point(12, 330);
             this.chbAutoSave.Name = "chbAutoSave";
             this.chbAutoSave.Size = new System.Drawing.Size(76, 17);
             this.chbAutoSave.TabIndex = 19;
@@ -267,7 +270,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(936, 476);
+            this.ClientSize = new System.Drawing.Size(432, 492);
             this.Controls.Add(this.chbAutoSave);
             this.Controls.Add(this.btnLoad);
             this.Controls.Add(this.btnSave);

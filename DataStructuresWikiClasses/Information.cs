@@ -3,15 +3,30 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace DataStructuresWikiClasses
 {
-    internal class Information
+    internal class Information : IComparable<string>
     {
         private string name;
         private string category;
         private string structure;
         private string definition;
+
+        public int CompareTo(string iname)
+        {
+            if (iname == null) return 1;
+            if (iname != null)
+            {
+                return this.name.CompareTo(iname);
+            }
+            else
+            {
+                MessageBox.Show("no");
+                return -1;
+            }
+        }
         public  Information()
         {
             
