@@ -16,14 +16,13 @@ namespace DataStructuresWikiClasses
 
         public int CompareTo(string iname)
         {
-            if (iname == null) return 1;
             if (iname != null)
             {
                 return this.name.CompareTo(iname);
             }
             else
             {
-                MessageBox.Show("no");
+                MessageBox.Show("Input was null...", "IComparible CompareTo - Sorting after Add", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return -1;
             }
         }

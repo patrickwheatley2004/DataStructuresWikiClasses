@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.btnAdd = new System.Windows.Forms.Button();
             this.tbxName = new System.Windows.Forms.TextBox();
             this.cbCategory = new System.Windows.Forms.ComboBox();
@@ -50,6 +51,7 @@
             this.btnSave = new System.Windows.Forms.Button();
             this.btnLoad = new System.Windows.Forms.Button();
             this.chbAutoSave = new System.Windows.Forms.CheckBox();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.gbDataStructure.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -62,6 +64,7 @@
             this.btnAdd.Text = "Add";
             this.btnAdd.UseVisualStyleBackColor = true;
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
+            this.btnAdd.MouseHover += new System.EventHandler(this.btnAdd_MouseHover);
             // 
             // tbxName
             // 
@@ -124,6 +127,7 @@
             this.btnClear.Text = "Clear";
             this.btnClear.UseVisualStyleBackColor = true;
             this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
+            this.btnClear.MouseHover += new System.EventHandler(this.btnClear_MouseHover);
             // 
             // lvDataStructures
             // 
@@ -140,6 +144,7 @@
             this.lvDataStructures.View = System.Windows.Forms.View.Details;
             this.lvDataStructures.SelectedIndexChanged += new System.EventHandler(this.lvDataStructures_SelectedIndexChanged);
             this.lvDataStructures.DoubleClick += new System.EventHandler(this.lvDataStructures_DoubleClick);
+            this.lvDataStructures.MouseHover += new System.EventHandler(this.lvDataStructures_MouseHover);
             // 
             // columnName
             // 
@@ -198,6 +203,7 @@
             this.btnEdit.Text = "Edit";
             this.btnEdit.UseVisualStyleBackColor = true;
             this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
+            this.btnEdit.MouseHover += new System.EventHandler(this.btnEdit_MouseHover);
             // 
             // btnDelete
             // 
@@ -208,6 +214,7 @@
             this.btnDelete.Text = "Delete";
             this.btnDelete.UseVisualStyleBackColor = true;
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
+            this.btnDelete.MouseHover += new System.EventHandler(this.btnDelete_MouseHover);
             // 
             // tbxSearchBar
             // 
@@ -225,6 +232,7 @@
             this.btnSearch.Text = "Search";
             this.btnSearch.UseVisualStyleBackColor = true;
             this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
+            this.btnSearch.MouseHover += new System.EventHandler(this.btnSearch_MouseHover);
             // 
             // statusStrip1
             // 
@@ -243,6 +251,7 @@
             this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            this.btnSave.MouseHover += new System.EventHandler(this.btnSave_MouseHover);
             // 
             // btnLoad
             // 
@@ -253,6 +262,7 @@
             this.btnLoad.Text = "Load";
             this.btnLoad.UseVisualStyleBackColor = true;
             this.btnLoad.Click += new System.EventHandler(this.btnLoad_Click);
+            this.btnLoad.MouseHover += new System.EventHandler(this.btnLoad_MouseHover);
             // 
             // chbAutoSave
             // 
@@ -265,6 +275,7 @@
             this.chbAutoSave.TabIndex = 19;
             this.chbAutoSave.Text = "Auto Save";
             this.chbAutoSave.UseVisualStyleBackColor = true;
+            this.chbAutoSave.MouseHover += new System.EventHandler(this.chbAutoSave_MouseHover);
             // 
             // frmMain
             // 
@@ -291,6 +302,7 @@
             this.Controls.Add(this.btnAdd);
             this.Name = "frmMain";
             this.Text = "Wiki";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmMain_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.gbDataStructure.ResumeLayout(false);
             this.gbDataStructure.PerformLayout();
@@ -323,6 +335,7 @@
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button btnLoad;
         private System.Windows.Forms.CheckBox chbAutoSave;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }
 
