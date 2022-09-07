@@ -18,6 +18,7 @@ namespace DataStructuresWikiClasses
             InitializeComponent();
         }
 
+        // 6.2 Create a global List<T> of type Information called Wiki.
         List<Information> Wiki = new List<Information>();
         string radioButtonType = "Linear";
         int radioButtonIndex = 0;
@@ -29,6 +30,7 @@ namespace DataStructuresWikiClasses
 
         private void LoadComboBox()
         {
+            // 6.4 Create a custom method to populate the ComboBox when the Form Load method is called. The six categories must be read from a simple text file.
             if (File.Exists("Categories.txt"))
             {
                 cbCategory.Items.Clear();
@@ -48,6 +50,7 @@ namespace DataStructuresWikiClasses
             statusStrip1.Items.Add(input);
         }
 
+        // 6.9 Create a single custom method that will sort and then display the Name and Category from the wiki information in the list.
         private void Sort()
         {
             int wikiC = Wiki.Count();
@@ -71,6 +74,7 @@ namespace DataStructuresWikiClasses
             Wiki[index + 1] = temp;
         }
 
+        // 6.5 Create a custom ValidName method which will take a parameter string value from the Textbox Name and returns a Boolean after checking for duplicates. Use the built in List<T> method “Exists” to answer this requirement.
         private bool ValidName(string input)
         {
             bool isValid = true;
@@ -83,7 +87,7 @@ namespace DataStructuresWikiClasses
             return isValid;
 
         }
-
+        // 6.3 Create a button method to ADD a new item to the list. Use a TextBox for the Name input, ComboBox for the Category, Radio group for the Structure and Multiline TextBox for the Definition.
         private void btnAdd_Click(object sender, EventArgs e)
         {
             bool exists = true;
@@ -138,6 +142,7 @@ namespace DataStructuresWikiClasses
             selectRB(radioButtonIndex);
         }
 
+        // 6.6 Create two methods to highlight and return the values from the Radio button GroupBox. The first method must return a string value from the selected radio button (Linear or Non-Linear). The second method must send an integer index which will highlight an appropriate radio button.
         private void selectRB(int index)
         {
             if (index == 0)
@@ -155,6 +160,7 @@ namespace DataStructuresWikiClasses
             displayData();
         }
 
+        // 6.11 Create a ListView event so a user can select a Data Structure Name from the list of Names and the associated information will be displayed in the related text boxes combo box and radio button.
         private void lvDataStructures_SelectedIndexChanged(object sender, EventArgs e)
         {
             try
@@ -167,6 +173,7 @@ namespace DataStructuresWikiClasses
             }
         }
 
+        // 6.6 Create two methods to highlight and return the values from the Radio button GroupBox. The first method must return a string value from the selected radio button (Linear or Non-Linear). The second method must send an integer index which will highlight an appropriate radio button.
         private void rbLinear_CheckedChanged(object sender, EventArgs e)
         {
             radioButtonType = "Linear";
@@ -179,6 +186,7 @@ namespace DataStructuresWikiClasses
             radioButtonIndex = 1;
         }
 
+        // 6.7 Create a button method that will delete the currently selected record in the ListView. Ensure the user has the option to backout of this action by using a dialog box. Display an updated version of the sorted list at the end of this process.
         private void btnDelete_Click(object sender, EventArgs e)
         {
             try
@@ -208,6 +216,7 @@ namespace DataStructuresWikiClasses
             displayData();
         }
 
+        // 6.8 Create a button method that will save the edited record of the currently selected item in the ListView. All the changes in the input controls will be written back to the list. Display an updated version of the sorted list at the end of this process.
         private void btnEdit_Click(object sender, EventArgs e)
         {
             try
@@ -274,18 +283,22 @@ namespace DataStructuresWikiClasses
             updateSS("Data in the textboxes has been successfully cleared");
         }
 
+        // 6.12 Create a custom method that will clear and reset the TextBoxes, ComboBox and Radio button
         private void btnClear_Click(object sender, EventArgs e)
         {
             clear();
         }
 
+        // 6.13 Create a double click event on the Name TextBox to clear the TextBboxes, ComboBox and Radio button.
         private void lvDataStructures_DoubleClick(object sender, EventArgs e)
         {
             clear();
         }
 
+        // 6.10 Create a button method that will use the builtin binary search to find a Data Structure name. If the record is found the associated details will populate the appropriate input controls and highlight the name in the ListView. At the end of the search process the search input TextBox must be cleared.
         private void btnSearch_Click(object sender, EventArgs e)
         {
+
             string text = tbxSearchBar.Text;
             List<string> names = new List<string>();
             for (int i = 0; i < Wiki.Count; i++)
@@ -308,6 +321,7 @@ namespace DataStructuresWikiClasses
 
         }
 
+        // 6.14 Create two buttons for the manual open and save option; this must use a dialog box to select a file or rename a saved file. All Wiki data is stored/retrieved using a binary reader/writer file format.
         private void btnSave_Click(object sender, EventArgs e)
         {
             string dfName = "definitions.bin";
@@ -352,6 +366,7 @@ namespace DataStructuresWikiClasses
             }
         }
 
+        // 6.14 Create two buttons for the manual open and save option; this must use a dialog box to select a file or rename a saved file. All Wiki data is stored/retrieved using a binary reader/writer file format.
         private void btnLoad_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -364,7 +379,6 @@ namespace DataStructuresWikiClasses
             }
         }
 
-        // 9.11	Create a LOAD button that will read the information from a binary file called definitions.dat into the 2D array, ensure the user has the option to select an alternative file. Use a file stream and BinaryReader to complete this task.
         private void OpenRecord(string openFileName)
         {
             try
@@ -396,7 +410,7 @@ namespace DataStructuresWikiClasses
             }
             displayData();
         }
-
+        // 6.15 The Wiki application will save data when the form closes. 
         private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (chbAutoSave.Checked == true)

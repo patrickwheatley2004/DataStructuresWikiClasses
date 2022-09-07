@@ -57,7 +57,7 @@
             // 
             // btnAdd
             // 
-            this.btnAdd.Location = new System.Drawing.Point(12, 243);
+            this.btnAdd.Location = new System.Drawing.Point(12, 347);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(75, 23);
             this.btnAdd.TabIndex = 0;
@@ -115,12 +115,12 @@
             this.tbxDefinition.Location = new System.Drawing.Point(12, 185);
             this.tbxDefinition.Multiline = true;
             this.tbxDefinition.Name = "tbxDefinition";
-            this.tbxDefinition.Size = new System.Drawing.Size(156, 52);
+            this.tbxDefinition.Size = new System.Drawing.Size(156, 156);
             this.tbxDefinition.TabIndex = 5;
             // 
             // btnClear
             // 
-            this.btnClear.Location = new System.Drawing.Point(93, 243);
+            this.btnClear.Location = new System.Drawing.Point(93, 347);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(75, 23);
             this.btnClear.TabIndex = 6;
@@ -196,7 +196,7 @@
             // 
             // btnEdit
             // 
-            this.btnEdit.Location = new System.Drawing.Point(12, 272);
+            this.btnEdit.Location = new System.Drawing.Point(12, 376);
             this.btnEdit.Name = "btnEdit";
             this.btnEdit.Size = new System.Drawing.Size(75, 23);
             this.btnEdit.TabIndex = 12;
@@ -207,7 +207,7 @@
             // 
             // btnDelete
             // 
-            this.btnDelete.Location = new System.Drawing.Point(12, 301);
+            this.btnDelete.Location = new System.Drawing.Point(12, 405);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(75, 23);
             this.btnDelete.TabIndex = 13;
@@ -238,13 +238,13 @@
             // 
             this.statusStrip1.Location = new System.Drawing.Point(0, 470);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(432, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(426, 22);
             this.statusStrip1.TabIndex = 16;
             this.statusStrip1.Text = "statusStrip1";
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(93, 272);
+            this.btnSave.Location = new System.Drawing.Point(93, 376);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 23);
             this.btnSave.TabIndex = 17;
@@ -255,7 +255,7 @@
             // 
             // btnLoad
             // 
-            this.btnLoad.Location = new System.Drawing.Point(93, 301);
+            this.btnLoad.Location = new System.Drawing.Point(93, 405);
             this.btnLoad.Name = "btnLoad";
             this.btnLoad.Size = new System.Drawing.Size(75, 23);
             this.btnLoad.TabIndex = 18;
@@ -269,7 +269,7 @@
             this.chbAutoSave.AutoSize = true;
             this.chbAutoSave.Checked = true;
             this.chbAutoSave.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chbAutoSave.Location = new System.Drawing.Point(12, 330);
+            this.chbAutoSave.Location = new System.Drawing.Point(12, 434);
             this.chbAutoSave.Name = "chbAutoSave";
             this.chbAutoSave.Size = new System.Drawing.Size(76, 17);
             this.chbAutoSave.TabIndex = 19;
@@ -281,7 +281,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(432, 492);
+            this.ClientSize = new System.Drawing.Size(426, 492);
             this.Controls.Add(this.chbAutoSave);
             this.Controls.Add(this.btnLoad);
             this.Controls.Add(this.btnSave);
