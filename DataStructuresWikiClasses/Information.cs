@@ -40,25 +40,25 @@ namespace DataStructuresWikiClasses
             definition = newDef;
         }
 
-        public string getName()
+        public string GetName()
         {
             return name;
         }
-        public void setName(string newName)
+        public void SetName(string newName)
         {
             name = newName;
         }
 
-        public string getCategory()
+        public string GetCategory()
         {
             return category;
         }
-        public void setCategory(string newCat)
+        public void SetCategory(string newCat)
         {
             category = newCat;
         }
 
-        public int getStructure()
+        public int GetStructure()
         {
             int strucType = 1;
             if (structure == "Linear")
@@ -67,16 +67,16 @@ namespace DataStructuresWikiClasses
             }
             return strucType;
         }
-        public void setStructure(string newStruc)
+        public void SetStructure(string newStruc)
         {
             structure = newStruc;
         }
 
-        public string getDef()
+        public string GetDef()
         {
             return definition;
         }
-        public void setDef(string newDef)
+        public void SetDef(string newDef)
         {
             definition = newDef;
         }

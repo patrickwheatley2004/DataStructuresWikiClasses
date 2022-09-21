@@ -28,9 +28,10 @@ namespace DataStructuresWikiClasses
             LoadComboBox();
         }
 
+        // 6.4 Create a custom method to populate the ComboBox when the Form Load method is called. The six categories must be read from a simple text file.
         private void LoadComboBox()
         {
-            // 6.4 Create a custom method to populate the ComboBox when the Form Load method is called. The six categories must be read from a simple text file.
+            // Checking if the file exists, if it eists then add the items to the combobox, if it doesn't exist then update the status strip.
             if (File.Exists("Categories.txt"))
             {
                 cbCategory.Items.Clear();
@@ -39,12 +40,13 @@ namespace DataStructuresWikiClasses
             }
             else
             {
-                updateSS("Categories could not be loaded.");
+                UpdateSS("Categories could not be loaded.");
             }
 
         }
 
-        private void updateSS(string input)
+        // A function to update the status strip so I don't have to use the "clear" function all the time.
+        private void UpdateSS(string input)
         {
             statusStrip1.Items.Clear();
             statusStrip1.Items.Add(input);
@@ -58,16 +60,16 @@ namespace DataStructuresWikiClasses
             {
                 for (int j = 0; j < wikiC - 1; j++)
                 {
-                    int indx = Wiki[j].CompareTo(Wiki[j + 1].getName());
+                    int indx = Wiki[j].CompareTo(Wiki[j + 1].GetName());
                     if (indx > 0) 
                     {
-                        swap(j);
+                        Swap(j);
                     }
                 }
             }
         }
 
-        private void swap(int index)
+        private void Swap(int index)
         {
             Information temp = Wiki[index];
             Wiki[index] = Wiki[index + 1];
@@ -81,64 +83,71 @@ namespace DataStructuresWikiClasses
             List<string> dummyNames = new List<string>();
             for (int i = 0; i < Wiki.Count; i++)
             {
-                dummyNames.Add(Wiki[i].getName());
+                dummyNames.Add(Wiki[i].GetName());
             }
             isValid = dummyNames.Contains(input);
+
+            if (isValid == false)
+            {
+                if (!string.IsNullOrEmpty(tbxName.Text) && !string.IsNullOrEmpty(cbCategory.Text) && radioButtonIndex >= 0 && !string.IsNullOrEmpty(tbxDefinition.Text))
+                {
+                    isValid = false;
+                }
+                else
+                {
+                    isValid = true;
+                }
+            }
+
+
+
             return isValid;
 
         }
         // 6.3 Create a button method to ADD a new item to the list. Use a TextBox for the Name input, ComboBox for the Category, Radio group for the Structure and Multiline TextBox for the Definition.
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            bool exists = true;
+            bool isntValid = true;
 
-            if (!string.IsNullOrEmpty(tbxName.Text) && !string.IsNullOrEmpty(cbCategory.Text) && radioButtonIndex >= 0 && !string.IsNullOrEmpty(tbxDefinition.Text)) 
+            isntValid = ValidName(tbxName.Text);
+            if (isntValid)
             {
-                exists = ValidName(tbxName.Text);
-                if (exists)
-                {
-                    MessageBox.Show("Error: " + tbxName.Text + " already exists in the wiki!", "Adding Information", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    updateSS("Error: " + tbxName.Text + " already exists in the wiki!");
-                }
-                else
-                {
-                    Wiki.Add(new Information(tbxName.Text, cbCategory.Text, radioButtonType, tbxDefinition.Text));
-                    displayData();
-                    updateSS(tbxName.Text + " has been added to the Wiki!");
-                }
-
+                MessageBox.Show("Error: " + tbxName.Text + " already exists in the wiki or one of the inputs has nothing inside!", "Adding Information", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                UpdateSS("Error: " + tbxName.Text + " already exists in the wiki or one of the inputs has nothing inside!");
             }
             else
             {
-                MessageBox.Show("Error: One of the following data inputs has no data inside: Name, Category, Structure or Definition. Please input data and try again.", "Error Inputting Data", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                updateSS("Error: One of the following data inputs has no data inside: Name, Category, Structure or Definition. Please input data and try again.");
+                Wiki.Add(new Information(tbxName.Text, cbCategory.Text, radioButtonType, tbxDefinition.Text));
+                DisplayData();
+                UpdateSS(tbxName.Text + " has been added to the Wiki!");
+                tbxName.Clear();
+                cbCategory.Text = null;
+                tbxDefinition.Clear();
+                rbLinear.Checked = true;
+                tbxName.Focus();
             }
-            tbxName.Clear();
-            cbCategory.Text = null;
-            tbxDefinition.Clear();
-            rbLinear.Checked = true;
-            tbxName.Focus();
 
         }
-
-        private void displayData()
+        // 6.9 Create a single custom method that will sort and then display the Name and Category from the wiki information in the list.
+        private void DisplayData()
         {
             lvDataStructures.Items.Clear();
             Sort();
             for (int i = 0; i < Wiki.Count; i++)
             {
-                ListViewItem lv1 = new ListViewItem(Wiki[i].getName(), 0);
-                lv1.SubItems.Add(Wiki[i].getCategory());
+                ListViewItem lv1 = new ListViewItem(Wiki[i].GetName(), 0);
+                lv1.SubItems.Add(Wiki[i].GetCategory());
                 lvDataStructures.Items.Add(lv1);
             }
         }
 
-        private void displayIntoText(int index)
+        // 6.11 Create a ListView event so a user can select a Data Structure Name from the list of Names and the associated information will be displayed in the related text boxes combo box and radio button.
+        private void DisplayIntoText(int index)
         {
-            tbxName.Text = Wiki[index].getName();
-            cbCategory.Text = Wiki[index].getCategory();
-            radioButtonIndex = Wiki[index].getStructure();
-            tbxDefinition.Text = Wiki[index].getDef();
+            tbxName.Text = Wiki[index].GetName();
+            cbCategory.Text = Wiki[index].GetCategory();
+            radioButtonIndex = Wiki[index].GetStructure();
+            tbxDefinition.Text = Wiki[index].GetDef();
             selectRB(radioButtonIndex);
         }
 
@@ -157,7 +166,7 @@ namespace DataStructuresWikiClasses
 
         private void btnDisplay_Click(object sender, EventArgs e)
         {
-            displayData();
+            DisplayData();
         }
 
         // 6.11 Create a ListView event so a user can select a Data Structure Name from the list of Names and the associated information will be displayed in the related text boxes combo box and radio button.
@@ -165,7 +174,7 @@ namespace DataStructuresWikiClasses
         {
             try
             {
-                displayIntoText(lvDataStructures.SelectedIndices[0]);
+                DisplayIntoText(lvDataStructures.SelectedIndices[0]);
             }
             catch (Exception)
             {
@@ -192,28 +201,28 @@ namespace DataStructuresWikiClasses
             try
             {
                 int index = lvDataStructures.SelectedIndices[0];
-                string text = Wiki[index].getName();
+                string text = Wiki[index].GetName();
 
                 DialogResult dr = MessageBox.Show("Are you sure you want to delete " + text + "?", "Are you sure you want to delete?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                 if (dr == DialogResult.Yes)
                 {
                     Wiki.RemoveAt(index);
-                    updateSS(text + " was deleted from the Wiki!");
+                    UpdateSS(text + " was deleted from the Wiki!");
                 }
                 else if (dr == DialogResult.No)
                 {
-                    updateSS(text + " has not been deleted from the Wiki!");
+                    UpdateSS(text + " has not been deleted from the Wiki!");
                 }
 
             }
             catch (Exception)
             {
                 MessageBox.Show("Error, nothing selected to delete.", "Deleting Definition", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                updateSS("Error, nothing selected to delete.");
+                UpdateSS("Error, nothing selected to delete.");
             }
 
-            displayData();
+            DisplayData();
         }
 
         // 6.8 Create a button method that will save the edited record of the currently selected item in the ListView. All the changes in the input controls will be written back to the list. Display an updated version of the sorted list at the end of this process.
@@ -222,56 +231,48 @@ namespace DataStructuresWikiClasses
             try
             {
                 int index = lvDataStructures.SelectedIndices[0];
-                string text = Wiki[index].getName();
+                string text = Wiki[index].GetName();
 
                 bool exists = true;
-
-                if (!string.IsNullOrEmpty(tbxName.Text) && !string.IsNullOrEmpty(cbCategory.Text) && radioButtonIndex >= 0 && !string.IsNullOrEmpty(tbxDefinition.Text))
+                exists = ValidName(tbxName.Text);
+                if (exists)
                 {
-                    exists = ValidName(tbxName.Text);
-                    if (exists)
+                    if (text == tbxName.Text)
                     {
-                        if (text == tbxName.Text)
-                        {
-                            Wiki[index].setName(tbxName.Text);
-                            Wiki[index].setStructure(radioButtonType);
-                            Wiki[index].setCategory(cbCategory.Text);
-                            Wiki[index].setDef(tbxDefinition.Text);
-                            updateSS(text + " was edited as is now " + tbxName.Text + "!");
-                        }
-                        else
-                        {
-                            MessageBox.Show("Error: " + tbxName.Text + " already exists in the wiki!", "Editing Information", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            updateSS("Error: " + tbxName.Text + " already exists in the wiki!");
-                        }
+                        Wiki[index].SetName(tbxName.Text);
+                        Wiki[index].SetStructure(radioButtonType);
+                        Wiki[index].SetCategory(cbCategory.Text);
+                        Wiki[index].SetDef(tbxDefinition.Text);
+                        UpdateSS(text + " was edited as is now " + tbxName.Text + "!");
                     }
                     else
                     {
-                        Wiki[index].setName(tbxName.Text);
-                        Wiki[index].setStructure(radioButtonType);
-                        Wiki[index].setCategory(cbCategory.Text);
-                        Wiki[index].setDef(tbxDefinition.Text);
-                        updateSS(text + " was edited as is now " + tbxName.Text + "!");
+                        MessageBox.Show("Error: " + tbxName.Text + " already exists in the wiki!", "Editing Information", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        UpdateSS("Error: " + tbxName.Text + " already exists in the wiki!");
                     }
-
                 }
                 else
                 {
-                    MessageBox.Show("Error: One of the following data inputs has no data inside: Name, Category, Structure or Definition. Please input data and try again.", "Error Inputting Data", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    updateSS("Error: One of the following data inputs has no data inside: Name, Category, Structure or Definition. Please input data and try again.");
+                    Wiki[index].SetName(tbxName.Text);
+                    Wiki[index].SetStructure(radioButtonType);
+                    Wiki[index].SetCategory(cbCategory.Text);
+                    Wiki[index].SetDef(tbxDefinition.Text);
+                    UpdateSS(text + " was edited as is now " + tbxName.Text + "!");
                 }
+
 
             }
             catch (Exception)
             {
                 MessageBox.Show("Error, nothing selected to edit.", "Editing Definition", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                updateSS("Error, nothing selected to edit.");
+                UpdateSS("Error, nothing selected to edit.");
             }
 
-            displayData();
+            DisplayData();
         }
 
-        private void clear()
+        // 6.12 Create a custom method that will clear and reset the TextBoxes, ComboBox and Radio button
+        private void ClearInputControls()
         {
             tbxName.Clear();
             cbCategory.Text = null;
@@ -280,19 +281,19 @@ namespace DataStructuresWikiClasses
             tbxDefinition.Clear();
             radioButtonIndex = -1;
             radioButtonType = null;
-            updateSS("Data in the textboxes has been successfully cleared");
+            UpdateSS("Data in the textboxes has been successfully cleared");
         }
 
         // 6.12 Create a custom method that will clear and reset the TextBoxes, ComboBox and Radio button
         private void btnClear_Click(object sender, EventArgs e)
         {
-            clear();
+            ClearInputControls();
         }
 
         // 6.13 Create a double click event on the Name TextBox to clear the TextBboxes, ComboBox and Radio button.
         private void lvDataStructures_DoubleClick(object sender, EventArgs e)
         {
-            clear();
+            ClearInputControls();
         }
 
         // 6.10 Create a button method that will use the builtin binary search to find a Data Structure name. If the record is found the associated details will populate the appropriate input controls and highlight the name in the ListView. At the end of the search process the search input TextBox must be cleared.
@@ -303,18 +304,18 @@ namespace DataStructuresWikiClasses
             List<string> names = new List<string>();
             for (int i = 0; i < Wiki.Count; i++)
             {
-                names.Add(Wiki[i].getName());
+                names.Add(Wiki[i].GetName());
                 lvDataStructures.Items[i].Checked = true;
             }
             int indx = names.BinarySearch(text);
             if (indx < 0)
             {
                 MessageBox.Show("Search for " + text + " was not found.", "Couldn't find search term.", MessageBoxButtons.OK, MessageBoxIcon.Question);
-                updateSS("Search for " + text + " was not found.");
+                UpdateSS("Search for " + text + " was not found.");
             }
             else
             {
-                displayIntoText(indx);
+                DisplayIntoText(indx);
                 lvDataStructures.Items[indx].Focused = true;
                 lvDataStructures.Items[indx].Selected = true;
             }
@@ -352,11 +353,12 @@ namespace DataStructuresWikiClasses
                     {
                         for (int i = 0; i < Wiki.Count; i++)
                         {
-                            writer.Write(Wiki[i].getName());
-                            writer.Write(Wiki[i].getCategory());
-                            writer.Write(Wiki[i].getStructure());
-                            writer.Write(Wiki[i].getDef());
+                            writer.Write(Wiki[i].GetName());
+                            writer.Write(Wiki[i].GetCategory());
+                            writer.Write(Wiki[i].GetStructure());
+                            writer.Write(Wiki[i].GetDef());
                         }
+                        UpdateSS("The file was successfully saved!");
                     }
                 }
             }
@@ -400,6 +402,8 @@ namespace DataStructuresWikiClasses
                                 def = reader.ReadString();
                                 Wiki.Add(new Information(name, category, radioButtonType, def));
                             }
+                            string fileName = Path.GetFileName(openFileName);
+                            UpdateSS(fileName + " was opened!");
                         }
                     }
                 }
@@ -408,7 +412,7 @@ namespace DataStructuresWikiClasses
             {
                 MessageBox.Show("ERROR: " + ex.ToString(), "Loading A .BIN File", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            displayData();
+            DisplayData();
         }
         // 6.15 The Wiki application will save data when the form closes. 
         private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
@@ -423,10 +427,10 @@ namespace DataStructuresWikiClasses
                         {
                             for (int i = 0; i < Wiki.Count; i++)
                             {
-                                writer.Write(Wiki[i].getName());
-                                writer.Write(Wiki[i].getCategory());
-                                writer.Write(Wiki[i].getStructure());
-                                writer.Write(Wiki[i].getDef());
+                                writer.Write(Wiki[i].GetName());
+                                writer.Write(Wiki[i].GetCategory());
+                                writer.Write(Wiki[i].GetStructure());
+                                writer.Write(Wiki[i].GetDef());
                             }
                         }
                     }
