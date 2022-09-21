@@ -79,6 +79,7 @@ namespace DataStructuresWikiClasses
         // 6.5 Create a custom ValidName method which will take a parameter string value from the Textbox Name and returns a Boolean after checking for duplicates. Use the built in List<T> method “Exists” to answer this requirement.
         private bool ValidName(string input)
         {
+            string[] invalidLetters = new string[] { "!", "@", "#", "$", "%", "^", "&", "*", "+", "=", ";", ":", "<", ">", "/", "\\", "'", "(",")" };
             bool isValid = true;
             List<string> dummyNames = new List<string>();
             for (int i = 0; i < Wiki.Count; i++)
@@ -99,7 +100,16 @@ namespace DataStructuresWikiClasses
                 }
             }
 
-
+            if (isValid == false)
+            {
+                for (int i = 0; i < invalidLetters.Length; i++)
+                {
+                    if (input.Contains(invalidLetters[i]))
+                    {
+                        isValid = true;
+                    }
+                }
+            }
 
             return isValid;
 
@@ -112,8 +122,8 @@ namespace DataStructuresWikiClasses
             isntValid = ValidName(tbxName.Text);
             if (isntValid)
             {
-                MessageBox.Show("Error: " + tbxName.Text + " already exists in the wiki or one of the inputs has nothing inside!", "Adding Information", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                UpdateSS("Error: " + tbxName.Text + " already exists in the wiki or one of the inputs has nothing inside!");
+                MessageBox.Show("Error: " + tbxName.Text + " already exists in the wiki, one of the inputs has nothing inside or it contains an illegal character!", "Adding Information", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                UpdateSS("Error: " + tbxName.Text + " already exists in the wiki, one of the inputs has nothing inside or it contains an illegal character!");
             }
             else
             {
@@ -318,6 +328,7 @@ namespace DataStructuresWikiClasses
                 DisplayIntoText(indx);
                 lvDataStructures.Items[indx].Focused = true;
                 lvDataStructures.Items[indx].Selected = true;
+                UpdateSS(text + " was found!");
             }
 
         }
