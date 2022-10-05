@@ -18,6 +18,14 @@ namespace DataStructuresWikiClasses
             InitializeComponent();
         }
 
+        internal Information Information
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
         // 6.2 Create a global List<T> of type Information called Wiki.
         List<Information> Wiki = new List<Information>();
         string radioButtonType = "Linear";
@@ -497,6 +505,11 @@ namespace DataStructuresWikiClasses
         private void btnSearch_MouseHover(object sender, EventArgs e)
         {
             toolTip1.SetToolTip(btnSearch, "Enter in the name of the data structure in the textbox on the left then click me to search.");
+        }
+        // 6.13 Create a double click event on the Name TextBox to clear the TextBboxes, ComboBox and Radio button.
+        private void tbxName_DoubleClick(object sender, EventArgs e)
+        {
+            ClearInputControls();
         }
     }
 }

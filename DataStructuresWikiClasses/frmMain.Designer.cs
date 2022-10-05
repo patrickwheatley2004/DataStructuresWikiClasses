@@ -72,6 +72,7 @@
             this.tbxName.Name = "tbxName";
             this.tbxName.Size = new System.Drawing.Size(156, 20);
             this.tbxName.TabIndex = 1;
+            this.tbxName.DoubleClick += new System.EventHandler(this.tbxName_DoubleClick);
             // 
             // cbCategory
             // 
@@ -236,7 +237,7 @@
             // 
             // statusStrip1
             // 
-            this.statusStrip1.Location = new System.Drawing.Point(0, 470);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 468);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(426, 22);
             this.statusStrip1.TabIndex = 16;
@@ -281,7 +282,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(426, 492);
+            this.ClientSize = new System.Drawing.Size(426, 490);
             this.Controls.Add(this.chbAutoSave);
             this.Controls.Add(this.btnLoad);
             this.Controls.Add(this.btnSave);
