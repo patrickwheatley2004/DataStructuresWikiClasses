@@ -18,6 +18,14 @@ namespace DataStructuresWikiClasses
             InitializeComponent();
         }
 
+        internal Information Information
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
         // 6.2 Create a global List<T> of type Information called Wiki.
         List<Information> Wiki = new List<Information>();
         string radioButtonType = "Linear";
@@ -452,51 +460,10 @@ namespace DataStructuresWikiClasses
                 }
             }
         }
-
-        
-        private void btnAdd_MouseHover(object sender, EventArgs e)
+        // 6.13 Create a double click event on the Name TextBox to clear the TextBboxes, ComboBox and Radio button.
+        private void tbxName_DoubleClick(object sender, EventArgs e)
         {
-            toolTip1.SetToolTip(btnAdd, "Add the data from the 4 controls above into the Wiki.");
-        }
-
-        private void btnClear_MouseHover(object sender, EventArgs e)
-        {
-            toolTip1.SetToolTip(btnClear, "Clears the 4 controls above.");
-        }
-
-        private void btnEdit_MouseHover(object sender, EventArgs e)
-        {
-            toolTip1.SetToolTip(btnEdit, "Edit data in the Wiki.\nClick on a data structure in the list, make the necessary changes in the 4 controls above then click me to edit.");
-        }
-
-        private void btnDelete_MouseHover(object sender, EventArgs e)
-        {
-            toolTip1.SetToolTip(btnDelete, "Click on a data structure in the listview then click me to delete.");
-        }
-
-        private void btnSave_MouseHover(object sender, EventArgs e)
-        {
-            toolTip1.SetToolTip(btnSave, "Click on me to save the data in the listview to your desired location using the .BIN file format.");
-        }
-
-        private void btnLoad_MouseHover(object sender, EventArgs e)
-        {
-            toolTip1.SetToolTip(btnLoad, "Click me to load data from a .BIN file of your choosing into the listview and Wiki");
-        }
-
-        private void chbAutoSave_MouseHover(object sender, EventArgs e)
-        {
-            toolTip1.SetToolTip(chbAutoSave, "Checked = Auto saves data from the listview. \nNot Checked = Doesn't auto save.");
-        }
-
-        private void lvDataStructures_MouseHover(object sender, EventArgs e)
-        {
-            toolTip1.SetToolTip(lvDataStructures, "Single click to display data in the 4 controls.\nDouble click to clear the data in the 4 controls.");
-        }
-
-        private void btnSearch_MouseHover(object sender, EventArgs e)
-        {
-            toolTip1.SetToolTip(btnSearch, "Enter in the name of the data structure in the textbox on the left then click me to search.");
+            ClearInputControls();
         }
     }
 }
