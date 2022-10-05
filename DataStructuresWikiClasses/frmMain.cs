@@ -465,5 +465,10 @@ namespace DataStructuresWikiClasses
         {
             ClearInputControls();
         }
+        // 6.13 Create a double click event on the Name TextBox to clear the TextBboxes, ComboBox and Radio button.
+        private void tbxName_DoubleClick(object sender, EventArgs e)
+        {
+            ClearInputControls();
+        }
     }
 }
