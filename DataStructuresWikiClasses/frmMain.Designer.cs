@@ -309,7 +309,7 @@
             this.Name = "frmMain";
             this.Text = "Wiki";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmMain_FormClosing);
-            this.Load += new System.EventHandler(this.Form1_Load);
+            this.Load += new System.EventHandler(this.frmMain_Load);
             this.gbDataStructure.ResumeLayout(false);
             this.gbDataStructure.PerformLayout();
             this.ResumeLayout(false);

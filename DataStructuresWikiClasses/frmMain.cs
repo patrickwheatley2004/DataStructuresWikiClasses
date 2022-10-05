@@ -8,7 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+// Patrick Wheatley
+// 31/08/2022
 namespace DataStructuresWikiClasses
 {
     public partial class frmMain : Form
@@ -18,40 +19,8 @@ namespace DataStructuresWikiClasses
             InitializeComponent();
         }
 
-        internal Information Information
-        {
-            get => default;
-            set
-            {
-            }
-        }
-
         // 6.2 Create a global List<T> of type Information called Wiki.
         List<Information> Wiki = new List<Information>();
-        string radioButtonType = "Linear";
-        int radioButtonIndex = 0;
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            LoadComboBox();
-        }
-
-        // 6.4 Create a custom method to populate the ComboBox when the Form Load method is called. The six categories must be read from a simple text file.
-        private void LoadComboBox()
-        {
-            // Checking if the file exists, if it eists then add the items to the combobox, if it doesn't exist then update the status strip.
-            if (File.Exists("Categories.txt"))
-            {
-                cbCategory.Items.Clear();
-                string[] categories = File.ReadAllLines("Categories.txt");
-                cbCategory.Items.AddRange(categories);
-            }
-            else
-            {
-                UpdateSS("Categories could not be loaded.");
-            }
-
-        }
 
         // A function to update the status strip so I don't have to use the "clear" function all the time.
         private void UpdateSS(string input)
@@ -87,6 +56,7 @@ namespace DataStructuresWikiClasses
         // 6.5 Create a custom ValidName method which will take a parameter string value from the Textbox Name and returns a Boolean after checking for duplicates. Use the built in List<T> method “Exists” to answer this requirement.
         private bool ValidName(string input)
         {
+            string rbType = getRBType();
             string[] invalidLetters = new string[] { "!", "@", "#", "$", "%", "^", "&", "*", "+", "=", ";", ":", "<", ">", "/", "\\", "'", "(",")" };
             bool isValid = true;
             List<string> dummyNames = new List<string>();
@@ -98,7 +68,7 @@ namespace DataStructuresWikiClasses
 
             if (isValid == false)
             {
-                if (!string.IsNullOrEmpty(tbxName.Text) && !string.IsNullOrEmpty(cbCategory.Text) && radioButtonIndex >= 0 && !string.IsNullOrEmpty(tbxDefinition.Text))
+                if (!string.IsNullOrEmpty(tbxName.Text) && !string.IsNullOrEmpty(cbCategory.Text) && rbType != "None" && !string.IsNullOrEmpty(tbxDefinition.Text))
                 {
                     isValid = false;
                 }
@@ -135,14 +105,11 @@ namespace DataStructuresWikiClasses
             }
             else
             {
-                Wiki.Add(new Information(tbxName.Text, cbCategory.Text, radioButtonType, tbxDefinition.Text));
+                string rbType = getRBType();
+                Wiki.Add(new Information(tbxName.Text, cbCategory.Text, rbType, tbxDefinition.Text));
                 DisplayData();
+                ClearInputControls();
                 UpdateSS(tbxName.Text + " has been added to the Wiki!");
-                tbxName.Clear();
-                cbCategory.Text = null;
-                tbxDefinition.Clear();
-                rbLinear.Checked = true;
-                tbxName.Focus();
             }
 
         }
@@ -151,7 +118,7 @@ namespace DataStructuresWikiClasses
         {
             lvDataStructures.Items.Clear();
             Sort();
-            for (int i = 0; i < Wiki.Count; i++)
+            for (int i = 0; i < Wiki.Count; i++) // foreach
             {
                 ListViewItem lv1 = new ListViewItem(Wiki[i].GetName(), 0);
                 lv1.SubItems.Add(Wiki[i].GetCategory());
@@ -164,13 +131,12 @@ namespace DataStructuresWikiClasses
         {
             tbxName.Text = Wiki[index].GetName();
             cbCategory.Text = Wiki[index].GetCategory();
-            radioButtonIndex = Wiki[index].GetStructure();
             tbxDefinition.Text = Wiki[index].GetDef();
-            selectRB(radioButtonIndex);
+            selectRB(Wiki[index].GetStructure());
         }
 
         // 6.6 Create two methods to highlight and return the values from the Radio button GroupBox. The first method must return a string value from the selected radio button (Linear or Non-Linear). The second method must send an integer index which will highlight an appropriate radio button.
-        private void selectRB(int index)
+        private int selectRB(int index)
         {
             if (index == 0)
             {
@@ -180,6 +146,23 @@ namespace DataStructuresWikiClasses
             {
                 rbNonLinear.Checked = true;
             }
+            return index;
+        }
+
+        private string getRBType()
+        {
+            if (rbLinear.Checked == true)
+            {
+                return "Linear";
+            }
+            else if (rbNonLinear.Checked == true)
+            {
+                return "Non-Linear";
+            }
+            else
+            {
+                return "None";
+            }               
         }
 
         private void btnDisplay_Click(object sender, EventArgs e)
@@ -203,14 +186,12 @@ namespace DataStructuresWikiClasses
         // 6.6 Create two methods to highlight and return the values from the Radio button GroupBox. The first method must return a string value from the selected radio button (Linear or Non-Linear). The second method must send an integer index which will highlight an appropriate radio button.
         private void rbLinear_CheckedChanged(object sender, EventArgs e)
         {
-            radioButtonType = "Linear";
-            radioButtonIndex = 0;
+
         }
 
         private void rbNonLinear_CheckedChanged(object sender, EventArgs e)
         {
-            radioButtonType = "Non-Linear";
-            radioButtonIndex = 1;
+
         }
 
         // 6.7 Create a button method that will delete the currently selected record in the ListView. Ensure the user has the option to backout of this action by using a dialog box. Display an updated version of the sorted list at the end of this process.
@@ -257,8 +238,9 @@ namespace DataStructuresWikiClasses
                 {
                     if (text == tbxName.Text)
                     {
+                        string rbType = getRBType();
                         Wiki[index].SetName(tbxName.Text);
-                        Wiki[index].SetStructure(radioButtonType);
+                        Wiki[index].SetStructure(rbType);
                         Wiki[index].SetCategory(cbCategory.Text);
                         Wiki[index].SetDef(tbxDefinition.Text);
                         UpdateSS(text + " was edited as is now " + tbxName.Text + "!");
@@ -271,8 +253,9 @@ namespace DataStructuresWikiClasses
                 }
                 else
                 {
+                    string rbType = getRBType();
                     Wiki[index].SetName(tbxName.Text);
-                    Wiki[index].SetStructure(radioButtonType);
+                    Wiki[index].SetStructure(rbType);
                     Wiki[index].SetCategory(cbCategory.Text);
                     Wiki[index].SetDef(tbxDefinition.Text);
                     UpdateSS(text + " was edited as is now " + tbxName.Text + "!");
@@ -297,8 +280,6 @@ namespace DataStructuresWikiClasses
             rbLinear.Checked = false;
             rbNonLinear.Checked = false;
             tbxDefinition.Clear();
-            radioButtonIndex = -1;
-            radioButtonType = null;
             UpdateSS("Data in the textboxes has been successfully cleared");
         }
 
@@ -415,11 +396,12 @@ namespace DataStructuresWikiClasses
                                 string name = "z";
                                 string category = "zz";
                                 string def = "zzz";
+                                string rbType = getRBType();
                                 name = reader.ReadString();
                                 category = reader.ReadString();
                                 selectRB(reader.ReadInt32());
                                 def = reader.ReadString();
-                                Wiki.Add(new Information(name, category, radioButtonType, def));
+                                Wiki.Add(new Information(name, category, rbType, def));
                             }
                             string fileName = Path.GetFileName(openFileName);
                             UpdateSS(fileName + " was opened!");
@@ -465,10 +447,21 @@ namespace DataStructuresWikiClasses
         {
             ClearInputControls();
         }
-        // 6.13 Create a double click event on the Name TextBox to clear the TextBboxes, ComboBox and Radio button.
-        private void tbxName_DoubleClick(object sender, EventArgs e)
+
+        // 6.4 Create a custom method to populate the ComboBox when the Form Load method is called. The six categories must be read from a simple text file.
+        private void frmMain_Load(object sender, EventArgs e)
         {
-            ClearInputControls();
+            // Checking if the file exists, if it eists then add the items to the combobox, if it doesn't exist then update the status strip.
+            if (File.Exists("Categories.txt"))
+            {
+                cbCategory.Items.Clear();
+                string[] categories = File.ReadAllLines("Categories.txt");
+                cbCategory.Items.AddRange(categories);
+            }
+            else
+            {
+                UpdateSS("Categories could not be loaded.");
+            }
         }
     }
 }
